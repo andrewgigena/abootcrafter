@@ -1,0 +1,24 @@
+[package]
+name = "abootcrafter"
+version = "1.0.0"
+edition = "2021"
+description = "A tool designed to manipulate android boot images like a real blacksmith."
+license = "MIT"
+repository = "https://github.com/andrewgigena/abootcrafter"
+documentation = "https://docs.rs/abootcrafter"
+homepage = "https://github.com/andrewgigena/abootcrafter"
+authors = ["Andrew Gigena <mail@andrewgigena.dev>"]
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+byteorder = "1.5"
+thiserror = "2.0"
+memmap2 = "0.9"
+anyhow = "1.0"
+toml = "0.8.19"
+serde = { version = "1.0", features = ["derive"] }
+
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+opt-level = "z"  # Optimize for size.
+lto = true
