@@ -1,0 +1,3 @@
+Vendor,Codename,Type,Path,Origin
+google,sailfish,recovery,./google/sailfish/recovery.img,twrp
+google,sailfish,boot,./google/sailfish/boot.img,lineageos

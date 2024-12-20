@@ -117,6 +117,13 @@ cmdline = "console=ttyMSM0,115200n8 androidboot.hardware=qcom"
     abootcrafter create -o new_boot.img -k kernel.img -r ramdisk.img -C config.toml --cmdline "console=ttyMSM0,115200n8"
     ```
 
+## Next features
+- [~] Add support for all [boot image headers](https://source.android.com/docs/core/architecture/bootloader/boot-image-header#implementing-versioning)
+- [ ] Add ramdisk subcommands (info, recompress (in-place), unpack, repack, addfile?, removefile?, etc)
+- [ ] Add device tree subcommands (info, remove, add, replace)
+- [ ] Add signature subcommands (info, remove, replace, generate)
+- [ ] Add kernel subcomands (info, extract-config)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -128,4 +135,5 @@ Contributions are welcome! Please feel free to open issues or pull requests to i
 ## Authors
 
 - [Andrew Gigena](https://github.com/andrewgigena)
+
 

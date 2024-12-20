@@ -1,8 +1,7 @@
 mod cli;
 mod commands;
 mod errors;
-mod types;
-mod utils;
+mod headers;
 
 use clap::Parser;
 use cli::{Cli, Commands};
