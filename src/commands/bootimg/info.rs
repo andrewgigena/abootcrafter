@@ -129,4 +129,3 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
 
     Ok(())
 }
-

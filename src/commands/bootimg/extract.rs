@@ -32,17 +32,17 @@ pub fn extract(
     };
     fs::create_dir_all(&directory_name)?;
 
+    // Define paths for extracted components
+    let kernel_path = directory_name.join("kernel");
+    let ramdisk_path = directory_name.join("ramdisk");
+    let second_path = directory_name.join("second");
+
     // Get the file and component sizes
     let mut file = boot_file.get_file();
     let page_size = boot_file.get_page_size();
     let kernel_size = boot_file.get_kernel_size();
     let ramdisk_size = boot_file.get_ramdisk_size();
     let second_size = boot_file.get_second_size().unwrap_or(0);
-
-    // Define paths for extracted components
-    let kernel_path = directory_name.join("kernel");
-    let ramdisk_path = directory_name.join("ramdisk");
-    let second_path = directory_name.join("second");
 
     // Calculate offsets and pages for components
     let header_pages = 1;
@@ -78,4 +78,3 @@ pub fn extract(
 
     Ok(())
 }
-
