@@ -2,11 +2,18 @@ use binrw::{BinRead, BinWrite};
 use std::fmt;
 
 #[derive(Debug, Default, BinRead, BinWrite)]
-pub struct Magic(#[br(count = 8)] pub Vec<u8>);
+#[br()]
+pub struct AndroidBootMagic(#[br(count = 8)] pub Vec<u8>);
 
-impl fmt::Display for Magic {
+impl fmt::Display for AndroidBootMagic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", String::from_utf8_lossy(&self.0))
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
     }
 }
 
@@ -15,7 +22,13 @@ pub struct Name(#[br(count = 16)] pub Vec<u8>);
 
 impl fmt::Display for Name {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", String::from_utf8_lossy(&self.0))
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
     }
 }
 
@@ -24,7 +37,42 @@ pub struct Cmdline(#[br(count = 512)] pub Vec<u8>);
 
 impl fmt::Display for Cmdline {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", String::from_utf8_lossy(&self.0))
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
+    }
+}
+
+#[derive(Debug, Default, BinRead, BinWrite)]
+pub struct ExtraCmdline(#[br(count = 1024)] pub Vec<u8>);
+
+impl fmt::Display for ExtraCmdline {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
+    }
+}
+
+#[derive(Debug, Default, BinRead, BinWrite)]
+pub struct CmdlineExtended(#[br(count = 1536)] pub Vec<u8>);
+impl fmt::Display for CmdlineExtended {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
     }
 }
 
@@ -33,7 +81,13 @@ pub struct Id(#[br(count = 8)] pub Vec<u8>);
 
 impl fmt::Display for Id {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", String::from_utf8_lossy(&self.0))
+        let ascii_str: String = self
+            .0
+            .iter()
+            .filter(|&&c| c.is_ascii())
+            .map(|&c| c as char)
+            .collect();
+        write!(f, "{}", ascii_str)
     }
 }
 

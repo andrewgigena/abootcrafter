@@ -11,7 +11,7 @@ authors = ["Andrew Gigena <mail@andrewgigena.dev>"]
 
 [dependencies]
 clap = { version = "4.4", features = ["derive"] }
-thiserror = "2.0.8"
+thiserror = "2.0.9"
 byteorder = "1.5.0"
 binrw = "0.14.1"
 
