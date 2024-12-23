@@ -17,14 +17,16 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
     let mut boot_file = AndroidBootFile::default();
     boot_file.load(input_boot_file)?;
 
+    println!("[General]");
+    println!("File: {}", input_boot_file.display());
+    println!(
+        "File Size: {}",
+        File::open(input_boot_file)?.metadata()?.len()
+    );
+    println!("[Header]");
+
     match boot_file.header {
         AndroidHeader::V0(ref header) => {
-            println!("[Header]");
-            println!("File: {}", input_boot_file.display());
-            println!(
-                "File Size: {}",
-                File::open(input_boot_file)?.metadata()?.len()
-            );
             println!("Magic: {}", header.magic);
             println!("Kernel Size: {}", header.kernel_size);
             println!("Kernel Address: {}", header.kernel_addr);
@@ -39,14 +41,10 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
             println!("Product Name: {}", header.name);
             println!("Command Line Arguments: {}", header.cmdline);
             println!("ID: {}", header.id);
+            println!("Extra Command Line Arguments: {}", header.extra_cmdline);
         }
         AndroidHeader::V1(ref header) => {
             println!("[Header]");
-            println!("File: {}", input_boot_file.display());
-            println!(
-                "File Size: {}",
-                File::open(input_boot_file)?.metadata()?.len()
-            );
             println!("Magic: {}", header.magic);
             println!("Kernel Size: {}", header.kernel_size);
             println!("Kernel Address: {}", header.kernel_addr);
@@ -67,12 +65,6 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
             println!("Header Size: {}", header.header_size);
         }
         AndroidHeader::V2(ref header) => {
-            println!("[Header]");
-            println!("File: {}", input_boot_file.display());
-            println!(
-                "File Size: {}",
-                File::open(input_boot_file)?.metadata()?.len()
-            );
             println!("Magic: {}", header.magic);
             println!("Kernel Size: {}", header.kernel_size);
             println!("Kernel Address: {}", header.kernel_addr);
@@ -95,12 +87,6 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
             println!("DTB Address: {}", header.dtb_addr);
         }
         AndroidHeader::V3(ref header) => {
-            println!("[Header]");
-            println!("File: {}", input_boot_file.display());
-            println!(
-                "File Size: {}",
-                File::open(input_boot_file)?.metadata()?.len()
-            );
             println!("Magic: {}", header.magic);
             println!("Kernel Size: {}", header.kernel_size);
             println!("Ramdisk Size: {}", header.ramdisk_size);
@@ -110,12 +96,6 @@ pub fn info(input_boot_file: &PathBuf) -> Result<(), AbootCrafterError> {
             println!("Command Line Arguments: {}", header.cmdline);
         }
         AndroidHeader::V4(ref header) => {
-            println!("[Header]");
-            println!("File: {}", input_boot_file.display());
-            println!(
-                "File Size: {}",
-                File::open(input_boot_file)?.metadata()?.len()
-            );
             println!("Magic: {}", header.magic);
             println!("Kernel Size: {}", header.kernel_size);
             println!("Ramdisk Size: {}", header.ramdisk_size);

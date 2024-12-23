@@ -3,7 +3,7 @@ use std::io::{Read, Seek, SeekFrom};
 use std::path::PathBuf;
 
 use crate::errors::AbootCrafterError;
-use crate::headers::android::AndroidBootFile;
+use crate::headers::android::{AndroidBootFile, AndroidHeader, PAGE_SIZE_V3};
 
 /// Extracts components from an Android boot image file to a specified output directory.
 ///
@@ -22,6 +22,7 @@ pub fn extract(
     // Load the Android boot file
     let mut boot_file = AndroidBootFile::default();
     boot_file.load(input_boot_file)?;
+    let mut file: &fs::File = boot_file.get_file();
 
     // Determine the output directory name
     let directory_name = if let Some(output_dir) = output_dir {
@@ -38,11 +39,34 @@ pub fn extract(
     let second_path = directory_name.join("second");
 
     // Get the file and component sizes
-    let mut file = boot_file.get_file();
-    let page_size = boot_file.get_page_size();
-    let kernel_size = boot_file.get_kernel_size();
-    let ramdisk_size = boot_file.get_ramdisk_size();
-    let second_size = boot_file.get_second_size().unwrap_or(0);
+    let page_size = match boot_file.header {
+        AndroidHeader::V0(ref header) => header.page_size,
+        AndroidHeader::V1(ref header) => header.page_size,
+        AndroidHeader::V2(ref header) => header.page_size,
+        AndroidHeader::V3(_) => PAGE_SIZE_V3,
+        AndroidHeader::V4(_) => PAGE_SIZE_V3,
+    };
+    let kernel_size = match boot_file.header {
+        AndroidHeader::V0(ref header) => header.kernel_size,
+        AndroidHeader::V1(ref header) => header.kernel_size,
+        AndroidHeader::V2(ref header) => header.kernel_size,
+        AndroidHeader::V3(ref header) => header.kernel_size,
+        AndroidHeader::V4(ref header) => header.kernel_size,
+    };
+    let ramdisk_size = match boot_file.header {
+        AndroidHeader::V0(ref header) => header.ramdisk_size,
+        AndroidHeader::V1(ref header) => header.ramdisk_size,
+        AndroidHeader::V2(ref header) => header.ramdisk_size,
+        AndroidHeader::V3(ref header) => header.ramdisk_size,
+        AndroidHeader::V4(ref header) => header.ramdisk_size,
+    };
+    let second_size = match boot_file.header {
+        AndroidHeader::V0(ref header) => header.second_size,
+        AndroidHeader::V1(ref header) => header.second_size,
+        AndroidHeader::V2(ref header) => header.second_size,
+        AndroidHeader::V3(_) => 0,
+        AndroidHeader::V4(_) => 0,
+    };
 
     // Calculate offsets and pages for components
     let header_pages = 1;

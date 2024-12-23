@@ -1,7 +1,7 @@
 use binrw::{BinRead, BinWrite};
-use std::{fmt, str::FromStr};
+use std::fmt;
 
-#[derive(Debug, Default, BinRead, BinWrite, Clone)]
+#[derive(Debug, BinRead, BinWrite, Clone)]
 #[br()]
 pub struct AndroidBootMagic(#[br(count = 8)] pub Vec<u8>);
 
@@ -14,6 +14,12 @@ impl fmt::Display for AndroidBootMagic {
             .map(|&c| c as char)
             .collect();
         write!(f, "{}", ascii_str)
+    }
+}
+
+impl Default for AndroidBootMagic {
+    fn default() -> Self {
+        AndroidBootMagic(b"ANDROID!".to_vec())
     }
 }
 
@@ -168,12 +174,17 @@ pub struct AddressU64(#[br(count = 8)] pub Vec<u8>);
 
 impl fmt::Display for AddressU64 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // Convert 8 bytes to u64, accounting for little-endian
-        let addr = u64::from_le_bytes(self.0.clone().try_into().unwrap());
+        // Handle case where we don't have exactly 8 bytes
+        if self.0.len() != 8 {
+            return write!(f, "0x{:016x}", 0); // Return 0 as fallback
+        }
+
+        // Convert slice to fixed size array, then to u64
+        let bytes: [u8; 8] = self.0.as_slice().try_into().unwrap_or([0; 8]);
+        let addr = u64::from_le_bytes(bytes);
         write!(f, "0x{:016x}", addr)
     }
 }
-
 impl From<String> for AddressU64 {
     fn from(s: String) -> Self {
         let addr = if s.starts_with("0x") {

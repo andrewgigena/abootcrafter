@@ -1,6 +1,6 @@
 use std::{
     fs::{File, OpenOptions},
-    io::{self, Seek, SeekFrom},
+    io::{self, Seek, SeekFrom, Write},
     path::Path,
 };
 
@@ -9,6 +9,8 @@ use super::fields::{
     OSVersion,
 };
 use binrw::{BinRead, BinWrite};
+
+pub const PAGE_SIZE_V3: u32 = 4096;
 
 #[derive(Debug, Default, BinRead, BinWrite)]
 #[br(little)]
@@ -202,7 +204,7 @@ impl AndroidBootFile {
         }
     }
 
-    pub fn save<P: AsRef<Path>>(&self, path: P) -> io::Result<()> {
+    pub fn save<P: AsRef<Path>>(&mut self, path: P, page_size: u32) -> io::Result<()> {
         let mut file = OpenOptions::new()
             .write(true)
             .create(true)
@@ -217,53 +219,19 @@ impl AndroidBootFile {
             AndroidHeader::V4(header) => header.write_le(&mut file),
         };
 
+        let zeros = vec![0u8; (page_size as usize - file.stream_position()? as usize) as usize];
+        file.write_all(&zeros)?; // Write zeroes
+
         match result {
-            Ok(_) => Ok(()),
+            Ok(_) => {
+                self.file = Some(file); // Store the file handle
+                Ok(())
+            }
             Err(err) => Err(io::Error::new(io::ErrorKind::Other, err)),
         }
     }
 
     pub fn get_file(&self) -> &File {
         self.file.as_ref().unwrap()
-    }
-
-    pub fn get_page_size(&self) -> u32 {
-        match &self.header {
-            AndroidHeader::V0(header) => header.page_size,
-            AndroidHeader::V1(header) => header.page_size,
-            AndroidHeader::V2(header) => header.page_size,
-            AndroidHeader::V3(_) => 4096,
-            AndroidHeader::V4(_) => 4096,
-        }
-    }
-
-    pub fn get_kernel_size(&self) -> u32 {
-        match &self.header {
-            AndroidHeader::V0(header) => header.kernel_size,
-            AndroidHeader::V1(header) => header.kernel_size,
-            AndroidHeader::V2(header) => header.kernel_size,
-            AndroidHeader::V3(header) => header.kernel_size,
-            AndroidHeader::V4(header) => header.kernel_size,
-        }
-    }
-
-    pub fn get_ramdisk_size(&self) -> u32 {
-        match &self.header {
-            AndroidHeader::V0(header) => header.ramdisk_size,
-            AndroidHeader::V1(header) => header.ramdisk_size,
-            AndroidHeader::V2(header) => header.ramdisk_size,
-            AndroidHeader::V3(header) => header.ramdisk_size,
-            AndroidHeader::V4(header) => header.ramdisk_size,
-        }
-    }
-
-    pub fn get_second_size(&self) -> Option<u32> {
-        match &self.header {
-            AndroidHeader::V0(header) => Some(header.second_size),
-            AndroidHeader::V1(header) => Some(header.second_size),
-            AndroidHeader::V2(header) => Some(header.second_size),
-            AndroidHeader::V3(_) => None,
-            AndroidHeader::V4(_) => None,
-        }
     }
 }
