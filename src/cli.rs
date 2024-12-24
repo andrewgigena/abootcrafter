@@ -36,30 +36,29 @@ pub enum MainCommand {
         #[command(subcommand)]
         command: CreateCommand,
     },
+    // /// Ramdisk manipulation commands
+    // Ramdisk {
+    //     #[command(subcommand)]
+    //     command: RamdiskCommand,
+    // },
 
-    /// Ramdisk manipulation commands
-    Ramdisk {
-        #[command(subcommand)]
-        command: RamdiskCommand,
-    },
+    // /// Device tree manipulation commands
+    // Devicetree {
+    //     #[command(subcommand)]
+    //     command: DevicetreeCommand,
+    // },
 
-    /// Device tree manipulation commands
-    Devicetree {
-        #[command(subcommand)]
-        command: DevicetreeCommand,
-    },
+    // /// Signature manipulation commands
+    // Signature {
+    //     #[command(subcommand)]
+    //     command: SignatureCommand,
+    // },
 
-    /// Signature manipulation commands
-    Signature {
-        #[command(subcommand)]
-        command: SignatureCommand,
-    },
-
-    /// Kernel manipulation commands
-    Kernel {
-        #[command(subcommand)]
-        command: KernelCommand,
-    },
+    // /// Kernel manipulation commands
+    // Kernel {
+    //     #[command(subcommand)]
+    //     command: KernelCommand,
+    // },
 }
 
 #[derive(Subcommand, Debug)]

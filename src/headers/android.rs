@@ -219,7 +219,7 @@ impl AndroidBootFile {
             AndroidHeader::V4(header) => header.write_le(&mut file),
         };
 
-        let zeros = vec![0u8; (page_size as usize - file.stream_position()? as usize) as usize];
+        let zeros = vec![0u8; page_size as usize - file.stream_position()? as usize];
         file.write_all(&zeros)?; // Write zeroes
 
         match result {

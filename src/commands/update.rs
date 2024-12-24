@@ -20,12 +20,11 @@ pub fn update(
     let mut boot_file = AndroidBootFile::default();
     boot_file.load(input_boot_file)?;
 
-    let kernel_data = kernel_file.map_or_else(|| Ok(Vec::new()), |p| std::fs::read(p))?;
-    let ramdisk_data = ramdisk_file.map_or_else(|| Ok(Vec::new()), |p| std::fs::read(p))?;
-    let second_data = second_file.map_or_else(|| Ok(Vec::new()), |p| std::fs::read(p))?;
-    let recovery_dtbo_data =
-        recovery_dtbo_file.map_or_else(|| Ok(Vec::new()), |p| std::fs::read(p))?;
-    let dtb_data = dtb_file.map_or_else(|| Ok(Vec::new()), |p| std::fs::read(p))?;
+    let kernel_data = kernel_file.map_or_else(|| Ok(Vec::new()), std::fs::read)?;
+    let ramdisk_data = ramdisk_file.map_or_else(|| Ok(Vec::new()), std::fs::read)?;
+    let second_data = second_file.map_or_else(|| Ok(Vec::new()), std::fs::read)?;
+    let recovery_dtbo_data = recovery_dtbo_file.map_or_else(|| Ok(Vec::new()), std::fs::read)?;
+    let dtb_data = dtb_file.map_or_else(|| Ok(Vec::new()), std::fs::read)?;
 
     match &mut boot_file.header {
         AndroidHeader::V0(ref mut header) => {
@@ -50,10 +49,10 @@ pub fn update(
             if !dtb_data.is_empty() {
                 println!("dtb is not supported on v0");
             }
-            if !cmdline.is_none() {
+            if cmdline.is_some() {
                 header.cmdline = cmdline.unwrap().into();
             }
-            if !extra_cmdline.is_none() {
+            if extra_cmdline.is_some() {
                 header.extra_cmdline = extra_cmdline.unwrap().into();
             }
         }
@@ -81,10 +80,10 @@ pub fn update(
             if !dtb_data.is_empty() {
                 println!("dtb is not supported on v1");
             }
-            if !cmdline.is_none() {
+            if cmdline.is_some() {
                 header.cmdline = cmdline.unwrap().into();
             }
-            if !extra_cmdline.is_none() {
+            if extra_cmdline.is_some() {
                 header.extra_cmdline = extra_cmdline.unwrap().into();
             }
         }
@@ -114,10 +113,10 @@ pub fn update(
             } else {
                 dtb_data.len() as u32
             };
-            if !cmdline.is_none() {
+            if cmdline.is_some() {
                 header.cmdline = cmdline.unwrap().into();
             }
-            if !extra_cmdline.is_none() {
+            if extra_cmdline.is_some() {
                 header.extra_cmdline = extra_cmdline.unwrap().into();
             }
         }
@@ -141,10 +140,10 @@ pub fn update(
             if !dtb_data.is_empty() {
                 println!("dtb is not supported on v3");
             }
-            if !cmdline.is_none() {
+            if cmdline.is_some() {
                 header.cmdline = cmdline.unwrap().into();
             }
-            if !extra_cmdline.is_none() {
+            if extra_cmdline.is_some() {
                 println!("extra_cmdline is not supported on v3");
             }
         }
@@ -168,10 +167,10 @@ pub fn update(
             if !dtb_data.is_empty() {
                 println!("dtb is not supported on v4");
             }
-            if !cmdline.is_none() {
+            if cmdline.is_some() {
                 header.cmdline = cmdline.unwrap().into();
             }
-            if !extra_cmdline.is_none() {
+            if extra_cmdline.is_some() {
                 println!("extra_cmdline is not supported on v4");
             }
         }
