@@ -1,6 +1,6 @@
 [package]
 name = "abootcrafter"
-version = "0.2.0"
+version = "1.1.0"
 edition = "2021"
 description = "A tool designed to manipulate android boot images like a real blacksmith."
 license = "MIT"
