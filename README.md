@@ -1,6 +1,9 @@
-# Abootcrafter
+# abootcrafter
 
-**Abootcrafter** is a Rust-based tool designed to manipulate android boot images like a real blacksmith. It allows you to display information about boot images, extract their components, update existing boot images, or create new ones based on provided configurations and files.
+**abootcrafter** is a Rust-based tool designed to manipulate android boot images like a real blacksmith. It allows you to display information about boot images, extract their components, update existing boot images, or create new ones based on provided configurations and files.
+
+[![Build status](https://github.com/andrewgigena/abootcrafter/workflows/ci/badge.svg)](https://github.com/andrewgigena/abootcrafter/actions)
+[![Crates.io](https://img.shields.io/crates/v/abootcrafter)](https://lib.rs/crates/abootcrafter)
 
 ## Features
 
@@ -11,24 +14,24 @@
 
 ## Installation
 
-1. **Clone the Repository**:
-    ```bash
-    git clone https://github.com/your-username/abootcrafter.git
-    cd abootcrafter
-    ```
+**[Archives of precompiled binaries for abootcrafter are available for Windows,
+macOS, Linux and Android.](https://github.com/andrewgigena/abootcrafter/releases)** Linux, Android and
+Windows binaries are static executables.
 
-2. **Build the Project**:
-    ```bash
-    cargo build --release
-    ```
+abootcrafter can also be installed with `cargo`.
 
-   The binary will be located in `target/release/abootcrafter`.
+```
+$ cargo install abootcrafter
+```
 
-3. **Run the Program**:
-    You can run the program directly from the command line:
-    ```bash
-    ./target/release/abootcrafter --help
-    ```
+Alternatively, one can use [`cargo
+binstall`](https://github.com/cargo-bins/cargo-binstall) to install a abootcrafter
+binary directly from GitHub:
+
+```
+$ cargo binstall abootcrafter
+```
+
 
 ## Usage
 
