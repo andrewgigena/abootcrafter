@@ -103,37 +103,37 @@ jobs:
           os: ubuntu-latest
           rust: stable
           target: aarch64-linux-android
-          strip: aarch64-linux-gnu-strip
+          strip: aarch64-linux-android-strip
           qemu: qemu-aarch64
         - build: stable-armv6-android
           os: ubuntu-latest
           rust: stable
           target: arm-linux-androideabi
-          strip: arm-linux-gnueabihf-strip
+          strip: arm-linux-androideabi-strip
           qemu: qemu-arm
         - build: stable-armv7-android
           os: ubuntu-latest
           rust: stable
           target: armv7-linux-androideabi
-          strip: arm-linux-gnueabihf-strip
+          strip: arm-linux-androideabi-strip
           qemu: qemu-arm
         - build: stable-armv7neon-android
           os: ubuntu-latest
           rust: stable
           target: thumbv7neon-linux-androideabi
-          strip: arm-linux-gnueabihf-strip
+          strip: arm-linux-androideabi-strip
           qemu: qemu-arm
         - build: stable-i686-android
           os: ubuntu-latest
           rust: stable
           target: i686-linux-android
-          strip: x86_64-linux-gnu-strip
+          strip: i686-linux-android-strip
           qemu: i386
         - build: stable-x86_64-android
           os: ubuntu-latest
           rust: stable
           target: x86_64-linux-android
-          strip: x86_64-linux-gnu-strip
+          strip: x86_64-linux-android-strip
         
         # macOS builds
         - build: macos
