@@ -228,7 +228,7 @@ jobs:
       run: |
         mkdir -p "$ARCHIVE"/
         cp "$BIN" "$ARCHIVE"/
-        cp {README.md,LICENSE} "$ARCHIVE"/
+        cp {README.md,LICENSE-MIT,LICENSE-APACHE} "$ARCHIVE"/
 
     - name: Build archive (Windows)
       shell: bash
