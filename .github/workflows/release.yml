@@ -62,82 +62,98 @@ jobs:
       matrix:
         include:
         # Linux builds
-        - build: stable
-          os: ubuntu-latest
-          rust: stable
-        - build: beta
-          os: ubuntu-latest
-          rust: beta
-        - build: nightly
+        - build: linux
           os: ubuntu-latest
           rust: nightly
-        - build: stable-musl
-          os: ubuntu-latest
-          rust: stable
           target: x86_64-unknown-linux-musl
+          strip: x86_64-linux-musl-strip
         - build: stable-x86
           os: ubuntu-latest
           rust: stable
           target: i686-unknown-linux-gnu
+          strip: x86_64-linux-gnu-strip
+          qemu: i386
         - build: stable-aarch64
           os: ubuntu-latest
           rust: stable
           target: aarch64-unknown-linux-gnu
+          strip: aarch64-linux-gnu-strip
+          qemu: qemu-aarch64
         - build: stable-arm-gnueabihf
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-gnueabihf
+          strip: arm-linux-gnueabihf-strip
+          qemu: qemu-arm
         - build: stable-arm-musleabihf
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-musleabihf
+          strip: arm-linux-musleabihf-strip
+          qemu: qemu-arm
         - build: stable-arm-musleabi
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-musleabi
-        - build: stable-arm-musleabi
-          os: ubuntu-latest
-          rust: stable
-          target: armv7-unknown-linux-musleabi
+          strip: arm-linux-musleabi-strip
+          qemu: qemu-arm
 
         # Android builds
         - build: stable-aarch64-android
           os: ubuntu-latest
           rust: stable
           target: aarch64-linux-android
+          strip: aarch64-linux-gnu-strip
+          qemu: qemu-aarch64
         - build: stable-armv6-android
           os: ubuntu-latest
           rust: stable
           target: arm-linux-androideabi
+          strip: arm-linux-gnueabihf-strip
+          qemu: qemu-arm
         - build: stable-armv7-android
           os: ubuntu-latest
           rust: stable
           target: armv7-linux-androideabi
+          strip: arm-linux-gnueabihf-strip
+          qemu: qemu-arm
         - build: stable-armv7neon-android
           os: ubuntu-latest
           rust: stable
           target: thumbv7neon-linux-androideabi
+          strip: arm-linux-gnueabihf-strip
+          qemu: qemu-arm
         - build: stable-i686-android
           os: ubuntu-latest
           rust: stable
           target: i686-linux-android
+          strip: x86_64-linux-gnu-strip
+          qemu: i386
         - build: stable-x86_64-android
           os: ubuntu-latest
           rust: stable
           target: x86_64-linux-android
+          strip: x86_64-linux-gnu-strip
         
         # macOS builds
         - build: macos
           os: macos-latest
           rust: nightly
+          target: x86_64-apple-darwin
 
         # Windows builds
         - build: win-msvc
-          os: windows-2022
+          os: windows-latest
           rust: nightly
+          target: x86_64-pc-windows-msvc
         - build: win-gnu
-          os: windows-2022
+          os: windows-latest
           rust: nightly-x86_64-gnu
+          target: x86_64-pc-windows-gnu
+        - build: win32-msvc
+          os: windows-latest
+          rust: nightly
+          target: i686-pc-windows-msvc
 
     steps:
     - name: Checkout repository
