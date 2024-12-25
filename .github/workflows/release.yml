@@ -62,36 +62,36 @@ jobs:
       matrix:
         include:
         # Linux builds
-        - build: linux
+        - build: linux-x86_64-musl
           os: ubuntu-latest
           rust: nightly
           target: x86_64-unknown-linux-musl
           strip: x86_64-linux-musl-strip
-        - build: stable-x86
+        - build: linux-i686-gnu
           os: ubuntu-latest
           rust: stable
           target: i686-unknown-linux-gnu
           strip: x86_64-linux-gnu-strip
           qemu: i386
-        - build: stable-aarch64
+        - build: linux-aarch64-gnu
           os: ubuntu-latest
           rust: stable
           target: aarch64-unknown-linux-gnu
           strip: aarch64-linux-gnu-strip
           qemu: qemu-aarch64
-        - build: stable-arm-gnueabihf
+        - build: linux-armv7-gnu-hardfloat
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-gnueabihf
           strip: arm-linux-gnueabihf-strip
           qemu: qemu-arm
-        - build: stable-arm-musleabihf
+        - build: linux-armv7-musl-hardfloat
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-musleabihf
           strip: arm-linux-musleabihf-strip
           qemu: qemu-arm
-        - build: stable-arm-musleabi
+        - build: linux-armv7-musl
           os: ubuntu-latest
           rust: stable
           target: armv7-unknown-linux-musleabi
@@ -99,58 +99,58 @@ jobs:
           qemu: qemu-arm
 
         # Android builds
-        - build: stable-aarch64-android
+        - build: android-aarch64
           os: ubuntu-latest
           rust: stable
           target: aarch64-linux-android
           strip: aarch64-linux-android-strip
           qemu: qemu-aarch64
-        - build: stable-armv6-android
+        - build: android-arm
           os: ubuntu-latest
           rust: stable
           target: arm-linux-androideabi
           strip: arm-linux-androideabi-strip
           qemu: qemu-arm
-        - build: stable-armv7-android
+        - build: android-armv7
           os: ubuntu-latest
           rust: stable
           target: armv7-linux-androideabi
           strip: arm-linux-androideabi-strip
           qemu: qemu-arm
-        - build: stable-armv7neon-android
+        - build: android-armv7neon
           os: ubuntu-latest
           rust: stable
           target: thumbv7neon-linux-androideabi
           strip: arm-linux-androideabi-strip
           qemu: qemu-arm
-        - build: stable-i686-android
+        - build: android-i686
           os: ubuntu-latest
           rust: stable
           target: i686-linux-android
           strip: i686-linux-android-strip
           qemu: i386
-        - build: stable-x86_64-android
+        - build: android-x86_64
           os: ubuntu-latest
           rust: stable
           target: x86_64-linux-android
           strip: x86_64-linux-android-strip
-        
+
         # macOS builds
-        - build: macos
+        - build: macos-x86_64
           os: macos-latest
           rust: nightly
           target: x86_64-apple-darwin
 
         # Windows builds
-        - build: win-msvc
+        - build: windows-x86_64-msvc
           os: windows-latest
           rust: nightly
           target: x86_64-pc-windows-msvc
-        - build: win-gnu
+        - build: windows-x86_64-gnu
           os: windows-latest
           rust: nightly-x86_64-gnu
           target: x86_64-pc-windows-gnu
-        - build: win32-msvc
+        - build: windows-i686-msvc
           os: windows-latest
           rust: nightly
           target: i686-pc-windows-msvc
@@ -221,7 +221,7 @@ jobs:
       shell: bash
       run: |
         version="${{ needs.create-release.outputs.version }}"
-        echo "ARCHIVE=abootcrafter-$version-${{ matrix.target }}" >> $GITHUB_ENV
+        echo "ARCHIVE=abootcrafter-$version-${{ matrix.build }}" >> $GITHUB_ENV
 
     - name: Creating directory for archive
       shell: bash
